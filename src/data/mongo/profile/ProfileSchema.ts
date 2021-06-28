@@ -16,8 +16,9 @@ export const ProfileSchema = new mongoose.Schema({
     accountId: {type: String},
     nickname: {type: String},
     pictureUrl: {type: String},
-    favorites: Array<Favorite>
+    favorites: {type:  { type : Array , "default" : [] }}
 
 }, { timestamps: true})
+
 
 export const DBProfileModel = mongoose.model<DBProfile>('DBProfile', ProfileSchema)
