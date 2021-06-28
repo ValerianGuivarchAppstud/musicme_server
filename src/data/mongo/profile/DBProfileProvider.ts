@@ -3,17 +3,18 @@ import Profile from '../../../domain/models/account/Profile'
 import {DBProfile, DBProfileModel} from './ProfileSchema'
 import IProfileProvider from '../../../domain/providers/account/IProfileProvider'
 
-export class ProfileProvider implements IProfileProvider {
+export class DBProfileProvider implements IProfileProvider {
 
     private static toProfile(doc: DBProfile): Profile {
-        return new Profile(doc.id, doc.accountId, doc.nickname, doc.pictureUrl)
+        return new Profile(doc.id, doc.accountId, doc.nickname, doc.pictureUrl, doc.favorites)
     }
 
     private static fromProfile(profile: Profile): object {
         return {id: profile.id,
             accountId: profile.accountId,
             nickname: profile.nickname,
-            pictureUrl: profile.pictureUrl}
+            pictureUrl: profile.pictureUrl,
+            favorites: profile.favorites}
     }
 
     async findById(id: string): Promise<Profile> {
@@ -21,7 +22,7 @@ export class ProfileProvider implements IProfileProvider {
         if (!profile) {
             throw ProviderErrors.AccountNotFound
         }
-        return ProfileProvider.toProfile(profile)
+        return DBProfileProvider.toProfile(profile)
     }
 
     async findByAccountId(accountId: string): Promise<Profile> {
@@ -29,21 +30,21 @@ export class ProfileProvider implements IProfileProvider {
         if (!profile) {
             throw ProviderErrors.AccountNotFound
         }
-        return ProfileProvider.toProfile(profile)
+        return DBProfileProvider.toProfile(profile)
     }
 
     async create(profile: Profile): Promise<Profile> {
-        return ProfileProvider.toProfile(
-            await DBProfileModel.create(ProfileProvider.fromProfile(profile) as DBProfile))
+        return DBProfileProvider.toProfile(
+            await DBProfileModel.create(DBProfileProvider.fromProfile(profile) as DBProfile))
     }
 
     async update(profile: Profile): Promise<Profile> {
-        return ProfileProvider.toProfile(
-            await DBProfileModel.findByIdAndUpdate(profile.id, ProfileProvider.fromProfile(profile), {new: true}))
+        return DBProfileProvider.toProfile(
+            await DBProfileModel.findByIdAndUpdate(profile.id, DBProfileProvider.fromProfile(profile), {new: true}))
     }
 
     async findAll(): Promise<Profile[]> {
-        return (await DBProfileModel.find({})).map( doc => ProfileProvider.fromProfile(doc) as DBProfile)
+        return (await DBProfileModel.find({})).map( doc => DBProfileProvider.fromProfile(doc) as DBProfile)
     }
 
 
