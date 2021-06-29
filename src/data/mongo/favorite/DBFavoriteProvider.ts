@@ -9,38 +9,47 @@ import Favorite from 'src/domain/models/favorite/Favorite'
 import { DBFavorite, DBFavoriteModel } from './FavoriteSchema'
 import Profile from 'src/domain/models/account/Profile'
 import { DBAccount } from '../account/AccountSchema'
+import Song from 'src/domain/models/favorite/Song'
 
 export class DBFavoriteProvider implements IFavoriteProvider {
 
     private static toFavorite(doc: DBFavorite): Favorite {
-        return new Favorite(doc.id, doc.createdAt, doc.song)
+        return new Favorite(doc.id, doc.createdAt, new Song(doc.idSong, doc.title, doc.artworkUrl))
     }
 
     private static fromFavorite(favorite: Favorite): object {
         return {
             id: favorite.id,
             createdAt: favorite.createdAt,
-            song: favorite.song
+            idSong: favorite.song.id,
+            title: favorite.song.title,
+            artworkUrl: favorite.song.artworkUrl
         }
     }
+/*    this.items.forEach(item => {
+        if (true) {
+            forEachReturned = true;
+            return;
+        }
+    });*/
 
     async getFavoriteList(profile: Profile): Promise<Favorite[]> {
         var favoriteList = new Array()
-        profile.favorites.forEach{ id =>
+        for(const favorite of profile.favorites) {
             favoriteList.push(
-                DBFavoriteModel.toFavorite(await DBFavoriteModel.findOne({id: id}).exec())
-                )
+                DBFavoriteProvider.toFavorite(await DBFavoriteModel.findOne({id: favorite.id}).exec())
+            )
         }
         return favoriteList
     }
 
-    saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
+    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
         if(isFavorite) {
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length > 0) {
                 throw ProviderErrors.FavoriteAlreadyCreated
             }
-            return await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
+            await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
                 new Favorite('', new Date(), favorite.song)
             ))
         } else {
@@ -48,9 +57,10 @@ export class DBFavoriteProvider implements IFavoriteProvider {
             if (fav.length == 0) {
                 throw ProviderErrors.FavoriteNotFound
             }
-            return await DBFavoriteModel.deleteOne({ id: favorite.id }, function (err) {
+            await DBFavoriteModel.deleteOne({ id: favorite.id }, function (err) {
                 if (err) throw ProviderErrors.FavoriteNotDeleted
               })
         }
+        return 
     }
 }

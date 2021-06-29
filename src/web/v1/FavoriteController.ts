@@ -28,13 +28,20 @@ export default class FavoriteController {
 
         router.get('/api/v1/favorites/',
             this.getFavoriteList.bind(this))
-        router.post('/api/v1/favorite/{favoriteId}', null,)
+        router.post('/api/v1/favorite/status',
+            this.saveFavoriteStatus.bind(this))
     }
 
     async getFavoriteList(req, res): Promise<Array<Favorite>> {
         const acc = await this.authService.getConnectedAccount(req.headers.authorization)
         const profile = await this.accountService.findProfileByAccountId(acc.id)
         return await this.favoriteService.getFavorites(profile)
+    }
+
+    async saveFavoriteStatus(req, res): Promise<void> {
+        const acc = await this.authService.getConnectedAccount(req.headers.authorization)
+        const profile = await this.accountService.findProfileByAccountId(acc.id)
+        return await this.favoriteService.saveFavoriteStatus(profile, req.body.favorite, req.body.status)
     }
 
 }
