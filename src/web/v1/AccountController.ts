@@ -23,7 +23,7 @@ export default class AccountController {
 
         router.get('/api/v1/account/me',
             this.getAccount.bind(this))
-        router.put('/api/v1/account/update',
+        router.put('/api/v1/account/me',
             this.updateAccount.bind(this))
         router.post('/api/v1/account/me/profilePicture', {preHandler: upload.single('file')},
             this.uploadProfilePicture.bind(this))
