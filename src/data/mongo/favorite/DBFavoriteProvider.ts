@@ -35,9 +35,9 @@ export class DBFavoriteProvider implements IFavoriteProvider {
 
     async getFavoriteList(profile: Profile): Promise<Favorite[]> {
         var favoriteList = new Array()
-        profile.favorites.forEach(favorite => 
+        profile.favorites.forEach(async favorite => 
             favoriteList.push(
-                DBFavoriteProvider.toFavorite(DBFavoriteModel.findOne({id: favorite.id}).exec())
+                DBFavoriteProvider.toFavorite(await DBFavoriteModel.findOne({id: favorite.id}).exec())
             )
         );
         return favoriteList
