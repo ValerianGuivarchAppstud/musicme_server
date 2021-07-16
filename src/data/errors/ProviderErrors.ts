@@ -22,5 +22,14 @@ export default class ProviderErrors {
 
     static UploadFailed: createHttpError.HttpError = createHttpError(createHttpError(400,
         'The file upload failed', {code: 'UPLOAD_FAILED'}))
+        
+    static FavoriteAlreadyCreated: createHttpError.HttpError = createHttpError(createHttpError(401,
+        'This favorite is already owned by this user', {code: 'FAVORITE_ALREADY_CREATED'}))
+        
+    static FavoriteNotFound: createHttpError.HttpError = createHttpError(createHttpError(401,
+        'This favorite does not exist', {code: 'FAVORITE_NOT_FOUND'}))
+        
+    static FavoriteNotDeleted: createHttpError.HttpError = createHttpError(createHttpError(401,//TODO incorrect code
+        'This favorite has not been deleted', {code: 'FAVORITE_NOT_DELETED'}))
 
 }

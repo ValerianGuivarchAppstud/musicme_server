@@ -9,6 +9,7 @@ import ProviderErrors from '../../data/errors/ProviderErrors'
 import IProfileProvider from '../providers/account/IProfileProvider'
 import DomainErrors from '../models/errors/DomainErrors'
 import Profile from '../models/account/Profile'
+import Favorite from '../models/favorite/Favorite'
 
 export default class AuthenticationService {
 
@@ -44,7 +45,7 @@ export default class AuthenticationService {
 
     async registerByEmail(email: string, password: string): Promise<Account> {
         const account = await this.accountProvider.registerByEmail(email, password)
-        await this.profileProvider.create(new Profile(undefined, account.id, undefined, undefined))
+        await this.profileProvider.create(new Profile(undefined, account.id, undefined, undefined, []))
         return account
     }
 
