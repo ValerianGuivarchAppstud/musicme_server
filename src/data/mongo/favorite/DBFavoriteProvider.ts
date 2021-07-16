@@ -51,9 +51,11 @@ export class DBFavoriteProvider implements IFavoriteProvider {
             if (fav.length > 0) {
                 throw ProviderErrors.FavoriteAlreadyCreated
             }
+            console.log(isFavorite);
             await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
                 new Favorite('', new Date(), favorite.song)
             ))
+            console.log(isFavorite);
         } else {
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length == 0) {
