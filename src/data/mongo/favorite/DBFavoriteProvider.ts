@@ -43,7 +43,7 @@ export class DBFavoriteProvider implements IFavoriteProvider {
         return favoriteList
     }
 
-    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
+    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<Boolean> {
         if(isFavorite) {
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length > 0) {
@@ -61,6 +61,6 @@ export class DBFavoriteProvider implements IFavoriteProvider {
                 if (err) throw ProviderErrors.FavoriteNotDeleted
               })
         }
-        return 
+        return isFavorite
     }
 }
