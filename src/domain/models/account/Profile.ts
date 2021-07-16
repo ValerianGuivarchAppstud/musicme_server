@@ -5,7 +5,7 @@ export default class Profile {
     accountId: string
     nickname: string // displayed name
     pictureUrl: string // from CDN
-    favorites: Favorite[]
+    favorites: Array<Favorite>
 
     constructor(id: string, accountId: string, nickname: string, pictureUrl: string, favorites: Array<Favorite>) {
         this.id = id
