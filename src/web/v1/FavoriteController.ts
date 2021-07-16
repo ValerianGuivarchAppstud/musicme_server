@@ -26,7 +26,7 @@ export default class FavoriteController {
         this.accountService = accountService
         this.favoriteService = favoriteService
 
-        router.get('/api/v1/favorites/',
+        router.get('/api/v1/favorites',
             this.getFavoriteList.bind(this))
         router.post('/api/v1/favorite/status',
             this.saveFavoriteStatus.bind(this))
