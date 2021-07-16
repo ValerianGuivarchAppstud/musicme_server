@@ -44,18 +44,14 @@ export class DBFavoriteProvider implements IFavoriteProvider {
     }
 
     async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
-        console.log(isFavorite);
-        
         if(isFavorite) {
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length > 0) {
                 throw ProviderErrors.FavoriteAlreadyCreated
             }
-            console.log(isFavorite);
             await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
                 new Favorite('', new Date(), favorite.song)
             ))
-            console.log(isFavorite);
         } else {
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length == 0) {

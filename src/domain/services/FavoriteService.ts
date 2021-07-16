@@ -21,7 +21,7 @@ export default class FavoriteService {
     }
     
 
-    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
+    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<boolean> {
         return this.favoriteProvider.saveFavoriteStatus(profile, favorite, isFavorite)
     }
     

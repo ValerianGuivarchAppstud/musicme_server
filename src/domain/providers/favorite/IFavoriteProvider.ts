@@ -6,6 +6,6 @@ export default interface IFavoriteProvider {
     
     getFavoriteList(profile: Profile): Promise<Array<Favorite>>
 
-    saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void>
+    saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<boolean>
 
 }
