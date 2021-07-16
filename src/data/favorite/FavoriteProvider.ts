@@ -23,7 +23,7 @@ export default class FavoriteProvider implements IFavoriteProvider {
         return this.favoriteProvider.getFavoriteList(profile)
     }
 
-    saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<boolean> {
+    saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
         return this.favoriteProvider.saveFavoriteStatus(profile, favorite, isFavorite)
     }
 }
