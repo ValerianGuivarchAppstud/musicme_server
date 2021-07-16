@@ -39,7 +39,7 @@ export class DBFavoriteProvider implements IFavoriteProvider {
             favoriteList.push(
                 DBFavoriteProvider.toFavorite(DBFavoriteModel.findOne({id: favorite.id}).exec())
             )
-        ;
+        );
         return favoriteList
     }
 
