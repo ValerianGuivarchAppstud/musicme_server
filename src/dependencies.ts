@@ -45,7 +45,7 @@ export default async function dependencies(): Promise<IModule[]> {
      */
     const accountService = new AccountService(accountProvider, profileProvider, cloudinaryImageProvider)
     const authService = new AuthenticationService(accountProvider, [emailAuthProvider], tokenProvider, profileProvider)
-    const favoriteService = new FavoriteService(accountProvider, profileProvider, dbFavoriteProvider)
+    const favoriteService = new FavoriteService(accountProvider, profileProvider, favoriteProvider)
 
     /**
      * CONTROLLERS
