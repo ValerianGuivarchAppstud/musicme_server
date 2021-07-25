@@ -14,6 +14,8 @@ import JwtTokenProvider from './data/auth/JwtTokenProvider'
 import { DBFavoriteProvider } from './data/mongo/favorite/DBFavoriteProvider'
 import FavoriteService from './domain/services/FavoriteService'
 import FavoriteController from './web/v1/FavoriteController'
+import AboutController from './web/v1/AboutController'
+import AboutService from './domain/services/AboutService'
 
 
 export default async function dependencies(): Promise<IModule[]> {
@@ -41,15 +43,17 @@ export default async function dependencies(): Promise<IModule[]> {
     /**
      * SERVICES
      */
-    const accountService = new AccountService(accountProvider, profileProvider, cloudinaryImageProvider)
-    const authService = new AuthenticationService(accountProvider, [emailAuthProvider], tokenProvider, profileProvider)
+     const aboutService = new AboutService()
+     const accountService = new AccountService(accountProvider, profileProvider, cloudinaryImageProvider)
+     const authService = new AuthenticationService(accountProvider, [emailAuthProvider], tokenProvider, profileProvider)
     const favoriteService = new FavoriteService(accountProvider, profileProvider, favoriteProvider)
 
     /**
      * CONTROLLERS
      */
-    new AccountController(http.router, authService, accountService)
-    new AuthenticationController(http.router,authService, accountService)
+     new AboutController(http.router, aboutService)
+     new AccountController(http.router, authService, accountService)
+     new AuthenticationController(http.router,authService, accountService)
     new FavoriteController(http.router,authService, accountService, favoriteService)
     return [http, database]
 
