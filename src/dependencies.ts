@@ -12,7 +12,6 @@ import AuthenticationService from './domain/services/AuthenticationService'
 import EmailAuthProvider from './data/auth/EmailAuthProvider'
 import JwtTokenProvider from './data/auth/JwtTokenProvider'
 import { DBFavoriteProvider } from './data/mongo/favorite/DBFavoriteProvider'
-import FavoriteProvider from './data/favorite/FavoriteProvider'
 import FavoriteService from './domain/services/FavoriteService'
 import FavoriteController from './web/v1/FavoriteController'
 
@@ -34,10 +33,9 @@ export default async function dependencies(): Promise<IModule[]> {
 
     const accountProvider = new DBAccountProvider()
     const profileProvider = new DBProfileProvider()
-    const dbFavoriteProvider = new DBFavoriteProvider()
+    const favoriteProvider = new DBFavoriteProvider()
 
     const emailAuthProvider = new EmailAuthProvider(accountProvider)
-    const favoriteProvider = new FavoriteProvider(dbFavoriteProvider)
 
 
     /**
