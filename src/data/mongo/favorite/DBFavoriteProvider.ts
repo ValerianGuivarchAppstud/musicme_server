@@ -47,6 +47,8 @@ export class DBFavoriteProvider implements IFavoriteProvider {
         console.log("b")
 
         if(isFavorite) {
+            console.log("c")
+
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length > 0) {
                 throw ProviderErrors.FavoriteAlreadyCreated
@@ -54,7 +56,11 @@ export class DBFavoriteProvider implements IFavoriteProvider {
             await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
                 new Favorite('', new Date(), favorite.song)
             ))
+            console.log("d")
+
         } else {
+            console.log("e")
+
             const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
             if (fav.length == 0) {
                 throw ProviderErrors.FavoriteNotFound
@@ -62,6 +68,8 @@ export class DBFavoriteProvider implements IFavoriteProvider {
             await DBFavoriteModel.deleteOne({ id: favorite.id }, function (err) {
                 if (err) throw ProviderErrors.FavoriteNotDeleted
               })
+              console.log("f")
+
         }
         return 
     }
