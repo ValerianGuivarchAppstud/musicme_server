@@ -1,19 +1,13 @@
-import {hashSync} from 'bcrypt'
-import * as uuid from 'uuid'
-import Account from '../../../domain/models/account/Account'
-import {Authority} from '../../../domain/models/auth/Authority'
 import ProviderErrors from '../../errors/ProviderErrors'
-import IAccountProvider from '../../../domain/providers/account/IAccountProvider'
 import IFavoriteProvider from 'src/domain/providers/favorite/IFavoriteProvider'
 import Favorite from 'src/domain/models/favorite/Favorite'
 import { DBFavorite, DBFavoriteModel } from './FavoriteSchema'
-import Profile from 'src/domain/models/account/Profile'
-import { DBAccount } from '../account/AccountSchema'
+import Profile from 'src/domain/models/profile/Profile'
 import Song from 'src/domain/models/favorite/Song'
 
 export class DBFavoriteProvider implements IFavoriteProvider {
 
-    private static toFavorite(doc: DBFavorite): Favorite {
+    static toFavorite(doc: DBFavorite): Favorite {
         return new Favorite(doc.id, doc.createdAt, new Song(doc.idSong, doc.title, doc.artworkUrl))
     }
 
@@ -43,39 +37,24 @@ export class DBFavoriteProvider implements IFavoriteProvider {
         return favoriteList
     }
 
-    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
-        console.log("b")
-
+    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<String> {
         if(isFavorite) {
-            console.log("c")
-
-            const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
-            console.log("d")
+            const fav = await DBFavoriteModel.find({ idSong : favorite.song.id }).exec()
             if (fav.length > 0) {
-                console.log("e")
-
                 throw ProviderErrors.FavoriteAlreadyCreated
             }
-            console.log("f")
 
-            await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
+            let result = await DBFavoriteModel.create(DBFavoriteProvider.fromFavorite(
                 new Favorite('', new Date(), favorite.song)
             ))
-            console.log("j")
-
+            return result.id
         } else {
-            console.log("e")
-
-            const fav = await DBFavoriteModel.find({ id : favorite.id }).exec()
-            if (fav.length == 0) {
-                throw ProviderErrors.FavoriteNotFound
-            }
             await DBFavoriteModel.deleteOne({ id: favorite.id }, function (err) {
-                if (err) throw ProviderErrors.FavoriteNotDeleted
+                if (err){
+                    throw ProviderErrors.FavoriteNotDeleted
+                }
               })
-              console.log("f")
-
+            return ""
         }
-        return 
     }
 }

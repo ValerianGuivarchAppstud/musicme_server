@@ -28,6 +28,12 @@ export default class ProviderErrors {
         
     static FavoriteNotFound: createHttpError.HttpError = createHttpError(createHttpError(401,
         'This favorite does not exist', {code: 'FAVORITE_NOT_FOUND'}))
+           
+    static ContactAlreadyCreated: createHttpError.HttpError = createHttpError(createHttpError(401,
+        'This contact is already owned by this user', {code: 'CONTACT_ALREADY_CREATED'}))
+        
+    static ContactNotFound: createHttpError.HttpError = createHttpError(createHttpError(401,
+        'This contact does not exist', {code: 'CONTACT_NOT_FOUND'}))
         
     static FavoriteNotDeleted: createHttpError.HttpError = createHttpError(createHttpError(401,//TODO incorrect code
         'This favorite has not been deleted', {code: 'FAVORITE_NOT_DELETED'}))

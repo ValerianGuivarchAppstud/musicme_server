@@ -1,11 +1,9 @@
-import Profile from '../../models/account/Profile'
+import Profile from '../../models/profile/Profile'
 
 export default interface IProfileProvider {
     create(profile: Profile): Promise<Profile>
 
     update(profile: Profile): Promise<Profile>
-
-    findAll(): Promise<Profile[]>
 
     findById(id: string): Promise<Profile>
 

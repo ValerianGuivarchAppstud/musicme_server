@@ -38,7 +38,7 @@ export default class FavoriteController {
         return await this.favoriteService.getFavorites(profile)
     }
 
-    async saveFavoriteStatus(req, res): Promise<void> {
+    async saveFavoriteStatus(req, res): Promise<String> {
         const acc = await this.authService.getConnectedAccount(req.headers.authorization)
         const profile = await this.accountService.findProfileByAccountId(acc.id)
         return await this.favoriteService.saveFavoriteStatus(profile, req.body.favorite, req.body.status)

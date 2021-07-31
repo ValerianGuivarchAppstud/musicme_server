@@ -1,7 +1,7 @@
 import IAccountProvider from '../providers/account/IAccountProvider'
 import Account from '../models/account/Account'
 import IProfileProvider from '../providers/account/IProfileProvider'
-import Profile from '../models/account/Profile'
+import Profile from '../models/profile/Profile'
 import IImageProvider from '../providers/image/IImageProvider'
 
 export default class AccountService {

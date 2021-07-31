@@ -1,5 +1,5 @@
 import Account from '../../../domain/models/account/Account'
-import Profile from '../../../domain/models/account/Profile'
+import Profile from '../../../domain/models/profile/Profile'
 
 export default class AccountVM {
     id: string // profileId

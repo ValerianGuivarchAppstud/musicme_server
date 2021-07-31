@@ -1,7 +1,7 @@
 import IAccountProvider from '../providers/account/IAccountProvider'
 import Account from '../models/account/Account'
 import IProfileProvider from '../providers/account/IProfileProvider'
-import Profile from '../models/account/Profile'
+import Profile from '../models/profile/Profile'
 import IImageProvider from '../providers/image/IImageProvider'
 import IFavoriteProvider from '../providers/favorite/IFavoriteProvider'
 import Favorite from '../models/favorite/Favorite'
@@ -21,8 +21,7 @@ export default class FavoriteService {
     }
     
 
-    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<void> {
-        console.log("a")
+    async saveFavoriteStatus(profile: Profile, favorite: Favorite, isFavorite: Boolean): Promise<String> {
         return this.favoriteProvider.saveFavoriteStatus(profile, favorite, isFavorite)
     }
     
